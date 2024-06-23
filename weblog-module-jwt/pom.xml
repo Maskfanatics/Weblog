@@ -8,9 +8,10 @@
         <version>${revision}</version>
     </parent>
 
-    <artifactId>weblog-module-common</artifactId>
-    <name>weblog-module-common</name>
-    <description>weblog-module-common (此模块用于存放一些通用的功能)</description>
+    <groupId>com.shumujin</groupId>
+    <artifactId>weblog-module-jwt</artifactId>
+    <name>weblog-module-jwt</name>
+    <description>weblog-module-jwt (JWT 模块，管理用户认证、鉴权)</description>
 
     <dependencies>
         <!-- 免写冗余的 Java 样板式代码 -->
@@ -20,12 +21,6 @@
             <optional>true</optional>
         </dependency>
 
-        <!-- 常用工具库 -->
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-        </dependency>
-
         <!-- 单元测试 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -33,36 +28,46 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- AOP 切面 -->
+        <!-- Spring Security -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-aop</artifactId>
+            <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
 
-        <!-- Jackson -->
+        <!-- JWT -->
         <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-api</artifactId>
         </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-impl</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-jackson</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-        <!-- Mybatis Plus -->
+
+        <!-- 工具包 -->
         <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-boot-starter</artifactId>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
         </dependency>
 
-        <!-- mysql 依赖 -->
+        <!-- 通用模块 -->
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
+            <groupId>com.shumujin</groupId>
+            <artifactId>weblog-module-common</artifactId>
         </dependency>
-        <!-- p6spy -->
+
         <dependency>
-            <groupId>p6spy</groupId>
-            <artifactId>p6spy</artifactId>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
         </dependency>
     </dependencies>
 

@@ -1,4 +1,4 @@
-package com.shumujin.weblogmodulecommon;
+package com.shumujin.weblog.common;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
