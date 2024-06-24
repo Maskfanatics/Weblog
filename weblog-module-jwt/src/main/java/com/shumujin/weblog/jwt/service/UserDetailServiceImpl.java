@@ -1,25 +1,51 @@
 package com.shumujin.weblog.jwt.service;
 
+import com.shumujin.weblog.common.domain.dos.UserDO;
+import com.shumujin.weblog.common.domain.dos.UserRoleDO;
+import com.shumujin.weblog.common.domain.mapper.UserMapper;
+import com.shumujin.weblog.common.domain.mapper.UserRoleMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
 public class UserDetailServiceImpl implements UserDetailsService {
+
+    @Autowired
+    private UserMapper userMapper;
+
+    @Autowired
+    private UserRoleMapper userRoleMapper;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        // 从数据库中查询
-        // ...
+        UserDO userDO = userMapper.findByUserName(username);
 
-        // 暂时先写死，密码为 quanxiaoha, 这里填写的密文，数据库中也是存储此种格式
-        // authorities 用于指定角色，这里写死为 ADMIN 管理员
-        return User.withUsername("shumujin")
-                .password("$2a$10$lPRslDvoHfuTn0NIkM2b6eHE6pckCm6ShBR2kADcWVZVmsGDeF67m")
-                .authorities("ADMIN")
+        if (Objects.isNull(userDO)) {
+            throw new UsernameNotFoundException("该用户不存在");
+        }
+
+        List<UserRoleDO> userRoleDOS = userRoleMapper.selectByUserName(username);
+
+        String[] roleArr = null;
+
+        if (!CollectionUtils.isEmpty(userRoleDOS)) {
+            List<String> roles = userRoleDOS.stream().map(p -> p.getRole()).collect(Collectors.toList());
+            roleArr = roles.toArray(new String[roles.size()]);
+        }
+        return User.withUsername(userDO.getUsername())
+                .password(userDO.getPassword())
+                .authorities(roleArr)
                 .build();
     }
 }

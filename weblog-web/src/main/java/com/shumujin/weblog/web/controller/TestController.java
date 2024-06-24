@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,5 +29,22 @@ public class TestController {
         logs.info(JsonUtil.toJsonString(userDO));
 
         return Response.fail();
+    }
+
+    @PostMapping("/login")
+    @ApiOperationLog(description = "测试登录接口")
+    @ApiOperation(value = "测试登录接口")
+    public Response login(@RequestBody @Validated UserDO userDO) {
+        logs.info(JsonUtil.toJsonString(userDO));
+        return Response.fail();
+    }
+
+    @PostMapping("/admin/update")
+    @ApiOperationLog(description = "测试更新接口")
+    @ApiOperation(value = "测试更新接口")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public Response testUpdate() {
+        log.info("更新成功...");
+        return Response.success();
     }
 }
